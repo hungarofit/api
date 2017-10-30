@@ -1,0 +1,59 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "fa03030b70b76c5d69fde76d600a357e",
+    "packages": [
+        {
+            "name": "hungarofit/evaluator",
+            "version": "v0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hungarofit/evaluator.git",
+                "reference": "ff814c1c51e595758cacacba24e8903821cb2a9b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hungarofit/evaluator/zipball/ff814c1c51e595758cacacba24e8903821cb2a9b",
+                "reference": "ff814c1c51e595758cacacba24e8903821cb2a9b",
+                "shasum": ""
+            },
+            "require-dev": {
+                "monger/spreadsheet-reader": "^1.0",
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Hungarofit\\Evaluator\\": "src/Hungarofit/Evaluator"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Lajos Bencz",
+                    "email": "lazos@lazos.me"
+                },
+                {
+                    "name": "Dr. Ildikó Mérey",
+                    "email": "feherne.ildiko@kgk.uni-obuda.hu"
+                }
+            ],
+            "description": "Hungarofit evaluator logic library for PHP",
+            "time": "2017-10-28T15:06:00+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
