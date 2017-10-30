@@ -1,0 +1,14 @@
+<?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+require_once __DIR__ . '/../app/bootstrap_web.php';
+
+try {
+    $app = new \Hungarofit\Api\Application;
+    $app->handle();
+}
+catch(\Exception $e) {
+    echo $e->getMessage(), '<br/>', nl2br($e->getTraceAsString()), '<br/>';
+}

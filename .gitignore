@@ -1,0 +1,10 @@
+
+/.idea/
+/vendor/
+/vue/node_modules/
+/app/config/*
+/xlsx/
+
+**/*.log
+
+!/app/config/*.sample.*
