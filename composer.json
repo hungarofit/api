@@ -18,6 +18,6 @@
     }
   },
   "require": {
-    "hungarofit/evaluator": "^0.1"
+    "hungarofit/evaluator": "^0.2"
   }
 }

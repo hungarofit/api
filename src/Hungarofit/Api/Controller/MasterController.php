@@ -76,18 +76,6 @@ class MasterController extends BaseController
                     Motor4Torso::get()->getKey(),
                 ],
             ],
-            '3' => [
-                'name' => 'Hungarofit 3+1',
-                'aerob' => [
-                    AerobRun6min::get()->getKey(),
-                    AerobRun12min::get()->getKey(),
-                ],
-                'motor' => [
-                    Motor3Situp::get()->getKey(),
-                    Motor3Torso::get()->getKey(),
-                    Motor3Jump::get()->getKey(),
-                ],
-            ],
         ];
         $exercises = [];
         /** @var ExerciseInterface $x */
@@ -101,9 +89,6 @@ class MasterController extends BaseController
                      AerobRun12min::get(),
                      AerobSwim12min::get(),
                      AerobSwim500m::get(),
-                     Motor3Situp::get(),
-                     Motor3Torso::get(),
-                     Motor3Jump::get(),
                      Motor4Situp::get(),
                      Motor4Jump::get(),
                      Motor4Pushup::get(),

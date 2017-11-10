@@ -4,21 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f6529d5f14fe0fd4dd69506e83e277be",
-    "content-hash": "fa03030b70b76c5d69fde76d600a357e",
+    "content-hash": "166e156864153b725824e13b229d29f1",
     "packages": [
         {
             "name": "hungarofit/evaluator",
-            "version": "v0.1.4",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hungarofit/evaluator.git",
-                "reference": "f989ef43bbd5fdfe7fa51a06d450f5575a683dbc"
+                "reference": "ff9737e9fbc9ce6f4393f450b96dd300eb07d04f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hungarofit/evaluator/zipball/f989ef43bbd5fdfe7fa51a06d450f5575a683dbc",
-                "reference": "f989ef43bbd5fdfe7fa51a06d450f5575a683dbc",
+                "url": "https://api.github.com/repos/hungarofit/evaluator/zipball/ff9737e9fbc9ce6f4393f450b96dd300eb07d04f",
+                "reference": "ff9737e9fbc9ce6f4393f450b96dd300eb07d04f",
                 "shasum": ""
             },
             "require-dev": {
@@ -46,7 +45,7 @@
                 }
             ],
             "description": "Hungarofit evaluator logic library for PHP",
-            "time": "2017-11-01 23:47:50"
+            "time": "2017-11-10T21:50:41+00:00"
         }
     ],
     "packages-dev": [],
