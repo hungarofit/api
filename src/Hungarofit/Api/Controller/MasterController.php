@@ -100,7 +100,7 @@ class MasterController extends BaseController
                      Motor6Throwdouble::get(),
                      Motor6Throwsingle::get(),
                  ] as $x) {
-            $exercises[$x->getName()] = [
+            $exercises[$x->getKey()] = [
                 'name' => $x->getName(),
                 'key' => $x->getKey(),
                 'age' => [

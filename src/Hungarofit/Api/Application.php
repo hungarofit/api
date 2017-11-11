@@ -111,11 +111,12 @@ class Application extends Micro
         });
 
         $this->before(function() {
-            $this->response->setHeader('Access-Control-Allow-Origin', 'https://app.hungarofit.hu');
             /*
+            $this->response->setHeader('Access-Control-Allow-Origin', 'https://app.hungarofit.hu; https://api.hungarofit.hu');
             $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
             $this->response->setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
             */
+            $this->response->setHeader('Access-Control-Allow-Origin', '*');
             $this->response->setContentType('application/json', 'utf-8');
         });
 
@@ -126,6 +127,18 @@ class Application extends Micro
                 'status' => 'OK',
                 'response' => $this->getReturnedValue(),
             ], JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+        });
+
+        $this->error(function($e) {
+            /** @var \Exception $e */
+            return [
+                'status' => 'ERROR',
+                'message' => $e->getMessage(),
+                /*
+                'trace' => $e->getTrace(),
+                'code' => $e->getCode(),
+                */
+            ];
         });
     }
 
