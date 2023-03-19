@@ -5,6 +5,7 @@ namespace Hungarofit\Api;
 
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
+use Phalcon\Mvc\Router;
 use Phalcon\Text;
 
 class Application extends Micro
@@ -102,6 +103,8 @@ class Application extends Micro
     {
         $di = FactoryDefault::getDefault();
         parent::__construct($di);
+
+        $this->router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
 
         $this->_routes();
 
