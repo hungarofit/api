@@ -1,10 +1,4 @@
-
 /.idea/
-/vendor/
-/vue/node_modules/
-/app/config/*
-/xlsx/
-
+.vscode/
+.history/
 **/*.log
-
-!/app/config/*.sample.*

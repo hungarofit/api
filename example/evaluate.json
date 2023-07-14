@@ -1,0 +1,14 @@
+{
+    "challenge": "motor6",
+    "gender": 2,
+    "age": 20,
+    "results": {
+        "aerob-run-12min": 2800,
+        "jump": 1.9,
+        "pushup": 60,
+        "situp": 60,
+        "torso": 60,
+        "throwdouble": 6.8,
+        "throwsingle": 7.6
+    }
+}
