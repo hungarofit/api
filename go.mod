@@ -1,6 +1,6 @@
 module github.com/hungarofit/api
 
-go 1.21.3
+go 1.19
 
 require (
 	github.com/danielgtaylor/huma/v2 v2.7.0
