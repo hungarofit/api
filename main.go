@@ -1,103 +1,58 @@
 package main
 
 import (
-	"encoding/json"
+	"context"
 	"fmt"
-	"log"
 	"net/http"
-	"os"
-	"strconv"
-	"strings"
 
-	hfit "github.com/hungarofit/evaluator"
+	"github.com/danielgtaylor/huma/v2"
+	"github.com/danielgtaylor/huma/v2/adapters/humachi"
+	"github.com/go-chi/chi/v5"
 )
 
-type results map[string]hfit.ResultValue
-
-type reqEvaluate struct {
-	Challenge hfit.Challenge `json:"challenge"`
-	Gender    hfit.Gender    `json:"gender"`
-	Age       hfit.Age       `json:"age"`
-	Results   results        `json:"results"`
-}
-
-func httpErr(w http.ResponseWriter, err error) bool {
-	if err != nil {
-		log.Println(err)
-		w.WriteHeader(500)
-		err2 := json.NewEncoder(w).Encode(map[string]interface{}{
-			"error": err.Error(),
-		})
-		if err2 != nil {
-			log.Println(err2)
-		}
-		return true
-	}
-	return false
-}
-
-func httpOk(w http.ResponseWriter, any interface{}) {
-	w.WriteHeader(200)
-	err2 := json.NewEncoder(w).Encode(any)
-	if err2 != nil {
-		log.Println(err2)
-	}
-}
-
-func handleIndex(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(200)
-	w.Write([]byte("Ok."))
-}
-
-func handleEvaluate(w http.ResponseWriter, r *http.Request) {
-	if r.ContentLength < 1 {
-		httpErr(w, fmt.Errorf("request body is empty"))
-		return
-	}
-	var t reqEvaluate
-	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&t); err != nil {
-		httpErr(w, err)
-		return
-	}
-	results := map[hfit.Exercise]hfit.ResultValue{}
-	for ex, v := range t.Results {
-		if strings.HasPrefix(ex, "aerob-") {
-			results[hfit.Exercise(ex)] = v
-			continue
-		}
-		results[hfit.Exercise(string(t.Challenge)+"-"+string(ex))] = v
-	}
-	score, err := hfit.Evaluate(t.Challenge, t.Gender, t.Age, results)
-	if err != nil {
-		httpErr(w, err)
-		return
-	}
-	httpOk(w, score)
-	log.Printf("%#v\n", score)
-}
-
 func main() {
-	var port uint16 = 8080
-	if envPort := os.Getenv("HTTP_PORT"); envPort != "" {
-		port2, err := strconv.ParseInt(envPort, 10, 32)
-		if err != nil {
-			log.Fatalln(err)
+	// Create a CLI app which takes a port option.
+	cli := huma.NewCLI(func(hooks huma.Hooks, options *Options) {
+		// Create a new router & API
+		router := chi.NewMux()
+		humaConfig := huma.DefaultConfig("Hungarofit API", "v1")
+		humaConfig.Info.Description = "HTTP API for Hungarofit evaluator"
+		api := humachi.New(router, humaConfig)
+
+		// Register routes
+		if err := registerRoutes(api); err != nil {
+			fmt.Println(err)
 		}
-		port = uint16(port2)
-	}
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", handleIndex)
-	mux.HandleFunc("/evaluate", handleEvaluate)
-	log.Printf("Starting server on http://localhost:%d", port)
-	http.ListenAndServe(fmt.Sprintf(":%d", port), http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
-		if r.Method == "OPTIONS" {
-			w.WriteHeader(http.StatusOK)
-			return
+
+		// Create the HTTP server.
+		listenAddress := fmt.Sprintf("%s:%d", options.Host, options.Port)
+		server := http.Server{
+			Addr:    listenAddress,
+			Handler: router,
 		}
-		mux.ServeHTTP(w, r)
-	}))
+		printAddress := listenAddress
+		if options.Host == "" || options.Host == "0.0.0.0" {
+			printAddress = fmt.Sprintf("http://localhost:%d", options.Port)
+		}
+		fmt.Println("Listen address:", printAddress)
+
+		// Tell the CLI how to start your router.
+		hooks.OnStart(func() {
+			fmt.Println("Starting server...")
+			if err := server.ListenAndServe(); err != nil {
+				fmt.Println(err)
+			}
+		})
+
+		// Tell the CLI how to stop your server.
+		hooks.OnStop(func() {
+			fmt.Println("Stopping server...")
+			ctx, cancel := context.WithTimeout(context.Background(), options.ShutdownTimeout)
+			defer cancel()
+			server.Shutdown(ctx)
+		})
+	})
+
+	// Run the CLI. When passed no commands, it starts the server.
+	cli.Run()
 }
